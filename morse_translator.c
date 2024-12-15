@@ -128,11 +128,11 @@ char translate_token(char* token)
         for (; i < 26; ++i){
             if (strncmp(token, MORSE_TABLE_ALPHABET[i], TOKEN_BUFFER_MAX_LEN) == 0){
                 translated_token = 'A' + i;
+                found_match = true;
                 break;
             }
         }
-
-    }else if (len == MORSE_DIGIT_LEN){
+    }else{
         for (; i < 10; ++i){
             if (strncmp(token, MORSE_TABLE_DIGITS[i], MORSE_DIGIT_LEN) == 0){
                 translated_token = '0' + i; 
@@ -140,9 +140,8 @@ char translate_token(char* token)
                 break;
             }
         }
-    }else{
         if (found_match == false){
-            for (; i < 18; ++i){
+            for (i = 0; i < 18; ++i){
                 if (strncmp(token, MORSE_TABLE_PUNCTUATION[i], TOKEN_BUFFER_MAX_LEN) == 0){
                     translated_token = MORSE_TABLE_PUNCTUATION_LOOKUP[i];
                     break;
@@ -150,6 +149,7 @@ char translate_token(char* token)
             }
         }
     }
+
     if (_OPTION_LOWERCASE == true && (translated_token != MORSE_UNRECOGNIZED_TOKEN)) translated_token = tolower(translated_token);
     return translated_token;
 }
